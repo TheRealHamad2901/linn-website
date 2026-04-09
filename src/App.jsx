@@ -105,7 +105,7 @@ export default function MyFavouriteLinn() {
   };
 
   const adores = [
-    { title: "The Smile", desc: "The way it lights up everything around you, even through a screen." },
+    { title: "The Smile", desc: "The way it lights up and you show me your pretty teeth." },
     { title: "The 'Denial'", desc: "The way you pretend to not like my shameless flirting (we both know you love it)." },
     { title: "The Influence", desc: "For being such a good influence on me and pushing me to be better every single day." },
     { title: "The Depth", desc: "Your effortless affection and the deep empathy you show to everyone around you." },
