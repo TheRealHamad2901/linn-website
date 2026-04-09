@@ -71,11 +71,20 @@ export default function MyFavouriteLinn() {
   
   const mapSectionRef = useRef(null);
 
+  // --- Bulletproof Storage Logic ---
   const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem('linn_complete_map');
-    return saved ? JSON.parse(saved) : {
-      song: '', movie: '', scent: '', peace: '', dreamDay: '', norwegianWord: '', parisCorner: '', soulColor: ''
-    };
+    const defaultData = { song: '', movie: '', scent: '', peace: '', dreamDay: '', norwegianWord: '', parisCorner: '', soulColor: '' };
+    try {
+      const saved = localStorage.getItem('linn_complete_map');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return { ...defaultData, ...parsed }; // Merge old and new data
+      }
+      return defaultData;
+    } catch (e) {
+      console.error("Storage reset due to error");
+      return defaultData;
+    }
   });
 
   useEffect(() => {
@@ -151,7 +160,7 @@ export default function MyFavouriteLinn() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white/60 backdrop-blur-md p-10 md:p-16 rounded-sm shadow-[30px_30px_80px_rgba(0,0,0,0.03)] border border-white relative overflow-hidden">
             <div className="absolute top-6 right-6 w-12 h-12 border border-rose-200 rounded-full flex items-center justify-center opacity-30">
-              <span className="text-[7px] text-rose-400 font-bold uppercase tracking-tighter text-center leading-none">Priority<br/>Post</span>
+              <span className="text-[7px] text-rose-400 font-bold uppercase tracking-tighter text-center leading-none">Priority Post</span>
             </div>
             <div className="mt-6 mb-16 border-b border-rose-50 pb-8 flex justify-between items-end">
               <div className="space-y-1"><p className="text-[9px] uppercase tracking-widest text-rose-400 font-bold">From</p><p className="text-sm font-serif italic">Sharjah, UAE</p></div>
@@ -174,17 +183,13 @@ export default function MyFavouriteLinn() {
         </div>
       </motion.section>
 
-      {/* 3. THE ADORATION GALLERY */}
+      {/* 3. ADORATION */}
       <motion.section {...sectionVariant} className="py-24 lg:py-40 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl lg:text-5xl font-serif mb-20 text-center tracking-tight">The Details I Adore</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {adores.map((item, i) => (
-              <motion.div 
-                key={i} 
-                whileHover={{ y: -5 }}
-                className={`p-10 bg-white/40 border border-white/60 shadow-sm rounded-sm ${i % 2 === 1 ? 'md:mt-12' : ''}`}
-              >
+              <motion.div key={i} whileHover={{ y: -5 }} className={`p-10 bg-white/40 border border-white/60 shadow-sm rounded-sm ${i % 2 === 1 ? 'md:mt-12' : ''}`}>
                 <span className="text-[9px] uppercase tracking-[0.4em] text-rose-300 font-bold mb-4 block italic">Detail {i + 1}</span>
                 <h3 className="text-2xl font-serif italic mb-4 text-gray-800 tracking-tight">{item.title}</h3>
                 <p className="text-gray-500 font-light leading-relaxed">{item.desc}</p>
@@ -194,18 +199,14 @@ export default function MyFavouriteLinn() {
         </div>
       </motion.section>
 
-      {/* 4. MAP OF SOUL (Stability Refined) */}
-      <section 
-        ref={mapSectionRef}
-        className="py-24 lg:py-40 px-6 bg-white relative z-10 shadow-sm border-y border-gray-50 overflow-hidden"
-      >
+      {/* 4. MAP OF SOUL */}
+      <section ref={mapSectionRef} className="py-24 lg:py-40 px-6 bg-white relative z-10 shadow-sm border-y border-gray-50 overflow-hidden">
         <motion.div {...sectionVariant} className="max-w-2xl mx-auto min-h-[700px] flex flex-col justify-center">
-          {/* PURPOSE HEADER ADDED HERE */}
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-serif mb-6 tracking-tight">A Map of Your Soul</h2>
             <div className="h-px w-12 bg-rose-100 mx-auto mb-6" />
             <p className="text-gray-500 font-light italic text-lg leading-relaxed max-w-lg mx-auto px-4">
-              "To know you is to understand the rhythm of your world. This map is a quiet archive of the sights, scents, and sounds that move you—a way for me to understand you better.."
+              "To know you is to understand the rhythm of your world. This map is a quiet archive of the sights, scents, and sounds that move you."
             </p>
           </div>
           
@@ -214,31 +215,30 @@ export default function MyFavouriteLinn() {
               <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }} onSubmit={handleFavSubmit} className="space-y-24 text-left">
                 <div className="space-y-14">
                   <h3 className="text-rose-800 font-serif italic text-2xl border-b border-rose-50 pb-2 inline-block">The Aesthetic</h3>
-                  <Question label="Favourite Song" value={favorites.song} onChange={(v)=>setFavorites({...favorites, song: v})} placeholder="What's playing right now?" />
-                  <Question label="Favourite Movie" value={favorites.movie} onChange={(v)=>setFavorites({...favorites, movie: v})} placeholder="The story you never get tired of..." />
-                  <Question label="A Norwegian Word" value={favorites.norwegianWord} onChange={(v)=>setFavorites({...favorites, norwegianWord: v})} placeholder="One that feels like home." />
+                  <Question label="Favourite Song" value={favorites.song} onChange={(v)=>setFavorites({...favorites, song: v})} />
+                  <Question label="Favourite Movie" value={favorites.movie} onChange={(v)=>setFavorites({...favorites, movie: v})} />
+                  <Question label="A Norwegian Word" value={favorites.norwegianWord} onChange={(v)=>setFavorites({...favorites, norwegianWord: v})} />
                 </div>
                 <div className="space-y-14">
                   <h3 className="text-rose-800 font-serif italic text-2xl border-b border-rose-50 pb-2 inline-block">The Senses</h3>
-                  <Question label="The Scent of Paris" value={favorites.scent} onChange={(v)=>setFavorites({...favorites, scent: v})} placeholder="Rain on stone, or fresh croissants?" />
-                  <Question label="The Color of Your Soul" value={favorites.soulColor} onChange={(v)=>setFavorites({...favorites, soulColor: v})} placeholder="If you were a shade in a painting..." />
+                  <Question label="The Scent of Paris" value={favorites.scent} onChange={(v)=>setFavorites({...favorites, scent: v})} />
+                  <Question label="The Color of Your Soul" value={favorites.soulColor} onChange={(v)=>setFavorites({...favorites, soulColor: v})} />
                 </div>
                 <div className="space-y-14">
                   <h3 className="text-rose-800 font-serif italic text-2xl border-b border-rose-50 pb-2 inline-block">The Connection</h3>
-                  <Question label="A Dream Day" value={favorites.dreamDay} onChange={(v)=>setFavorites({...favorites, dreamDay: v})} placeholder="If we had 24 hours and no rules?" />
-                  <Question label="Your Secret Parisian Corner" value={favorites.parisCorner} onChange={(v)=>setFavorites({...favorites, parisCorner: v})} placeholder="The view you've never told anyone about." />
+                  <Question label="A Dream Day" value={favorites.dreamDay} onChange={(v)=>setFavorites({...favorites, dreamDay: v})} />
+                  <Question label="Your Secret Parisian Corner" value={favorites.parisCorner} onChange={(v)=>setFavorites({...favorites, parisCorner: v})} />
                 </div>
-                <button disabled={isSending} className="w-full py-6 bg-[#1A1A1A] text-white rounded-full font-bold uppercase tracking-[0.4em] text-[10px] hover:bg-rose-500 transition-all shadow-2xl relative overflow-hidden disabled:bg-gray-800">
+                <button disabled={isSending} className="w-full py-6 bg-[#1A1A1A] text-white rounded-full font-bold uppercase tracking-[0.4em] text-[10px] hover:bg-rose-500 transition-all shadow-2xl relative overflow-hidden">
                   <span className={isSending ? 'opacity-0' : 'opacity-100'}>Submit to my muse</span>
                   {isSending && <motion.div initial={{ left: '-100%' }} animate={{ left: '0%' }} transition={{ duration: 2.5, ease: "linear" }} className="absolute inset-0 bg-rose-500 flex items-center justify-center"><span className="tracking-[0.2em]">Sending to your muse...</span></motion.div>}
                 </button>
               </motion.form>
             ) : (
               <motion.div key="confirmed" initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} className="p-16 bg-[#FCFAF7] rounded-[3rem] border border-rose-50 text-center shadow-inner py-32 relative">
-                <div className="mb-8 opacity-20 text-rose-400 flex justify-center"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"/></svg></div>
                 <h3 className="text-3xl font-serif text-rose-900 mb-6 italic">Pieces of you, safely kept.</h3>
-                <p className="text-gray-500 font-light text-xl mb-12 italic leading-relaxed">"I feel a bit more complete now that I have these details. They are saved in my archive until the day we can experience them together."</p>
-                <button onClick={()=>setHasSubmittedFavs(false)} className="text-[10px] uppercase tracking-widest text-gray-300 underline hover:text-rose-500 transition-colors">Edit your map</button>
+                <p className="text-gray-500 font-light text-xl mb-12 italic leading-relaxed">"They are saved in my archive until the day we can experience them together."</p>
+                <button onClick={()=>setHasSubmittedFavs(false)} className="text-[10px] uppercase tracking-widest text-gray-300 underline">Edit your map</button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -275,12 +275,12 @@ export default function MyFavouriteLinn() {
         <div className="max-w-2xl mx-auto">
           <AnimatePresence mode="wait">
             {!mDayCommitted ? (
-              <motion.div key="i-l" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="bg-white p-12 md:p-16 rounded-sm shadow-[30px_30px_80px_rgba(0,0,0,0.02)] border border-rose-50">
+              <motion.div key="i-l" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="bg-white p-12 md:p-16 rounded-sm shadow-sm border border-rose-50">
                 <div className="flex justify-between items-start mb-14 border-b border-rose-50 pb-8"><div className="space-y-1"><span className="text-[9px] uppercase tracking-[0.4em] text-rose-300 font-bold">Event</span><h2 className="text-2xl font-serif italic text-gray-800">M-Day</h2></div><div className="text-right space-y-1"><span className="text-[9px] uppercase tracking-[0.4em] text-rose-300 font-bold">Timeline</span><span className="text-sm font-serif italic underline decoration-rose-200 underline-offset-4">Before August</span></div></div>
-                <div className="space-y-8 text-center md:text-left"><p className="text-xl md:text-2xl font-serif leading-relaxed text-gray-800 italic">Hamad Almheiri requests the pleasure of your company for the very first meeting of hearts and minds.</p><p className="text-gray-500 font-light text-base md:text-lg leading-relaxed">Aiming for our first date <span className="text-rose-500 italic">before August</span>. Since you clearly can’t get enough of your muse, I’m hustling even harder to bridge the gap sooner. It’s a lot of work, but when the motivation is a girl as beautiful as you, every bit of effort feels like a privilege.</p><div className="pt-8 flex flex-col items-center justify-center"><button onClick={() => setMDayCommitted(true)} className="px-16 py-5 bg-[#1A1A1A] text-white rounded-full font-bold shadow-2xl tracking-[0.3em] text-[10px] uppercase hover:bg-rose-500 transition-all">Accept Invitation 🌹</button><p className="mt-4 text-[9px] text-gray-300 uppercase tracking-widest text-center">Formal RSVP Required</p></div></div>
+                <div className="space-y-8 text-center md:text-left"><p className="text-xl md:text-2xl font-serif leading-relaxed text-gray-800 italic">Hamad requests the honour of your presence for the very first meeting of hearts and minds.</p><p className="text-gray-500 font-light text-base md:text-lg leading-relaxed">Aiming for our first date <span className="text-rose-500 italic">before August</span>. Since you clearly can’t get enough of your muse, I’m hustling even harder to bridge the gap sooner.</p><div className="pt-8 flex flex-col items-center justify-center"><button onClick={() => setMDayCommitted(true)} className="px-16 py-5 bg-[#1A1A1A] text-white rounded-full font-bold shadow-2xl tracking-[0.3em] text-[10px] uppercase hover:bg-rose-600 transition-all">Accept Invitation 🌹</button></div></div>
               </motion.div>
             ) : (
-              <motion.div key="a-l" initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-14 md:p-20 rounded-sm shadow-2xl border-2 border-rose-100 text-center relative overflow-hidden"><div className="absolute top-4 right-4 text-[9px] font-bold uppercase tracking-widest text-rose-500">Sealed</div><span className="text-[10px] uppercase tracking-[0.6em] text-rose-400 font-bold mb-8 block">The Commitment</span><h3 className="text-3xl md:text-5xl font-serif italic text-rose-900 mb-8 leading-tight">"I have officially accepted."</h3><div className="h-px w-16 bg-rose-200 mx-auto mb-8" /><p className="text-gray-500 font-light text-lg italic mb-12">Paris awaits me, and I await the day I no longer have to build websites to hold your attention.</p><button onClick={() => setMDayCommitted(false)} className="text-[9px] uppercase tracking-widest text-gray-300 underline hover:text-rose-500">Change RSVP Status</button></motion.div>
+              <motion.div key="a-l" initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} className="bg-white p-14 md:p-20 rounded-sm shadow-2xl border-2 border-rose-100 text-center relative overflow-hidden"><span className="text-[10px] uppercase tracking-[0.6em] text-rose-400 font-bold mb-8 block">The Commitment</span><h3 className="text-3xl md:text-5xl font-serif italic text-rose-900 mb-8 leading-tight">"I have officially accepted."</h3><button onClick={() => setMDayCommitted(false)} className="text-[9px] uppercase tracking-widest text-gray-300 underline">Change RSVP Status</button></motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -289,7 +289,7 @@ export default function MyFavouriteLinn() {
       {/* 8. FOOTER */}
       <footer className="py-32 lg:py-48 px-6 bg-white text-center relative z-10">
         <h3 className="text-4xl font-serif text-[#1A1A1A] mb-4 font-bold tracking-tighter">Hamad Almheiri</h3>
-        <p className="text-gray-400 font-light italic text-lg mb-16 italic font-serif">Coded by hand and affection ;)</p>
+        <p className="text-gray-400 font-serif italic text-lg mb-16 italic font-serif">Coded by hand and affection ;)</p>
         <p className="text-[9px] tracking-[0.5em] text-gray-200 uppercase font-bold tracking-widest">For Only One Person</p>
       </footer>
     </div>
@@ -300,7 +300,7 @@ function Question({ label, value, onChange, placeholder }) {
   return (
     <div className="group">
       <label className="text-[9px] uppercase tracking-[0.3em] text-rose-400 font-bold mb-3 block">{label}</label>
-      <input type="text" value={value || ''} onChange={(e)=>onChange(e.target.value)} placeholder={placeholder} className="w-full bg-transparent border-b border-gray-100 py-3 focus:border-rose-400 outline-none italic text-xl transition-all placeholder:text-gray-200" />
+      <input type="text" value={value || ''} onChange={(e)=>onChange(e.target.value)} placeholder={placeholder} className="w-full bg-transparent border-b border-gray-100 py-3 focus:border-rose-400 outline-none italic text-xl transition-all" />
     </div>
   );
 }
