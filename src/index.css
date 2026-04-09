@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-color: #FCFAF7;
+}
+
+/* This forces the fonts if Tailwind struggles */
+h1, h2, h3, .font-serif {
+  font-family: 'Playfair Display', serif !important;
+}
+
+.font-arabic {
+  font-family: 'Amiri', serif !important;
+}
