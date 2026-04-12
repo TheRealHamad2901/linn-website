@@ -66,7 +66,10 @@ export default function MyFavouriteLinn() {
     scent: "Dry Wood near Trinity Campus during the Toronto Spring.",
     soulColor: "Lavender. A dark, moody shade that carries a heavy weight of devotion to those I love.",
     dreamDay: "I would hold her, teach her how to solve a Rubik's cube, but use every excuse in the book to keep touching her as much as possible.",
-    view: "Chester Hill Lookout, overlooking the valley."
+    view: "Chester Hill Lookout, overlooking the valley.",
+    iceCream: "Butter Pecan (The only correct choice).",
+    guiltyBand: "TV Girl. I know... fuckboi music, but their songs sound so good ;)",
+    nostalgia: "Taking the subway with my friends to classes. We got so late once because we hadn't memorized the routes yet—the same ones I use every single day now."
   };
 
   useEffect(() => {
@@ -89,14 +92,13 @@ export default function MyFavouriteLinn() {
     setHasSubmittedFavs(true);
   };
 
-  // Dynamic Styles
   const primaryColor = isHamadMode ? "text-blue-600" : "text-rose-500";
   const particleIcon = isHamadMode ? "💙" : "🌹";
 
   return (
     <div className={`min-h-screen ${isHamadMode ? 'bg-slate-50' : 'bg-[#FCFAF7]'} text-[#1A1A1A] font-sans transition-colors duration-1000 overflow-x-hidden relative`}>
       
-      {/* 🌊 Dynamic Background Terrain 🌊 */}
+      {/* Dynamic Background */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
         <motion.div
           animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
@@ -115,20 +117,16 @@ export default function MyFavouriteLinn() {
         {(kneeStatus === 'yes' || hasSubmittedFavs || mDayCommitted) && <BloomParticles icon={particleIcon} />}
       </AnimatePresence>
 
-      {/* 🔘 THE SWITCH (Hamad's Interaction) */}
+      {/* The Switch */}
       <div className="fixed top-8 left-8 z-[100] flex items-center gap-4">
         <div 
           onClick={() => setIsHamadMode(!isHamadMode)}
           className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-500 ${isHamadMode ? 'bg-blue-600' : 'bg-rose-200'}`}
         >
-          <motion.div 
-            layout
-            className="bg-white w-6 h-6 rounded-full shadow-md"
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          />
+          <motion.div layout className="bg-white w-6 h-6 rounded-full shadow-md" transition={{ type: "spring", stiffness: 500, damping: 30 }} />
         </div>
         <span className={`text-[10px] font-bold uppercase tracking-widest ${isHamadMode ? 'text-blue-600' : 'text-rose-400'}`}>
-          {isHamadMode ? "Hamad Mode" : "Switch to see my answers"}
+          {isHamadMode ? "Hamad Mode" : "Switch to see his answers"}
         </span>
       </div>
 
@@ -136,13 +134,13 @@ export default function MyFavouriteLinn() {
       <section className="h-[100dvh] flex flex-col items-center justify-center px-6 relative z-10 text-center">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2 }}>
           <div className={`text-[10px] tracking-[0.6em] ${primaryColor} font-bold mb-8 uppercase italic`}>
-            {isHamadMode ? "The Tech-Savvy Arab Boy" : greetings[index]}
+            {isHamadMode ? "Your man who thinks of you daily" : greetings[index]}
           </div>
           <h1 className="text-[18vw] lg:text-[160px] font-serif leading-none mb-4 tracking-tighter">
             {isHamadMode ? "Hamad." : "Linn."}
           </h1>
           <p className="text-gray-400 tracking-[0.4em] uppercase text-[9px] font-medium">
-            {isHamadMode ? "Obsessed with his cute Norwegian girl" : "An Archive for You"}
+            {isHamadMode ? "Obsessed with his favorite Norwegian girl" : "An Archive for You"}
           </p>
         </motion.div>
       </section>
@@ -152,21 +150,20 @@ export default function MyFavouriteLinn() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white p-10 md:p-16 rounded-sm shadow-2xl border border-white relative overflow-hidden">
             <div className={`mt-6 mb-16 border-b ${isHamadMode ? 'border-blue-50' : 'border-rose-50'} pb-8 flex justify-between items-end`}>
-              <div className="space-y-1"><p className={`text-[9px] uppercase tracking-widest ${primaryColor} font-bold`}>From</p><p className="text-sm font-serif italic">{isHamadMode ? "Paris, in spirit" : "Sharjah, UAE"}</p></div>
-              <div className="text-right space-y-1"><p className={`text-[9px] uppercase tracking-widest ${primaryColor} font-bold`}>To</p><p className="text-sm font-serif italic">{isHamadMode ? "My Favourite Tech Prodigy" : "Paris, France"}</p></div>
+              <div className="space-y-1"><p className={`text-[9px] uppercase tracking-widest ${primaryColor} font-bold`}>From</p><p className="text-sm font-serif italic">{isHamadMode ? "Toronto / Sharjah" : "Sharjah, UAE"}</p></div>
+              <div className="text-right space-y-1"><p className={`text-[9px] uppercase tracking-widest ${primaryColor} font-bold`}>To</p><p className="text-sm font-serif italic">Paris, France</p></div>
             </div>
             <div className="relative">
               <p className="text-xl md:text-2xl font-serif italic text-gray-800 mb-8 leading-relaxed">
                 {isHamadMode 
-                  ? `"You're likely viewing this because a certain Arab boy couldn't keep his thoughts about you to himself. Welcome to the other side of the screen."`
-                  : `"If you're reading this, you're highly likely a very cute tall Norwegian girl with a wonky knee who may or may not secretly have a crush on her secret Arab muse."`}
+                  ? `"I wanted you to see that while I'm asking you these things, I'm thinking of my own answers with you in mind. Every detail here belongs to you."`
+                  : `"If you're reading this, you're highly likely a very cute tall Norwegian girl with a wonky knee who has caught the attention of a certain Arab boy."`}
               </p>
-              <div className="space-y-6 text-gray-500 font-light text-base md:text-lg leading-relaxed">
-                <p>I built this little feature so you could see the answers to the same questions I asked you. A way to show you that I'm just as much an open book for you as I hope you are for me.</p>
-              </div>
               <div className="mt-20 text-right">
                 <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">With all my affection,</p>
-                <p className={`text-5xl ${primaryColor} font-signature leading-none`}>Your {isHamadMode ? 'Muse' : 'Tech Prodigy'}</p>
+                <p className={`text-5xl ${primaryColor} font-signature leading-none`}>
+                  {isHamadMode ? 'The man who thinks of you daily' : 'Your Tech Prodigy'}
+                </p>
               </div>
             </div>
           </div>
@@ -174,38 +171,36 @@ export default function MyFavouriteLinn() {
       </motion.section>
 
       {/* 4. MAP OF SOUL */}
-      <section ref={mapSectionRef} className="py-24 lg:py-40 px-6 bg-white relative z-10 shadow-sm border-y border-gray-50 overflow-hidden">
+      <section ref={mapSectionRef} className="py-24 lg:py-40 px-6 bg-white relative z-10 shadow-sm border-y border-gray-50">
         <div className="max-w-2xl mx-auto min-h-[700px] flex flex-col justify-center">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-serif mb-6 tracking-tight">
               A Map of {isHamadMode ? "Hamad's" : "Your"} Soul
             </h2>
-            <p className="text-gray-500 font-light italic text-lg leading-relaxed max-w-lg mx-auto px-4">
-              {isHamadMode 
-                ? "A rare look inside the archive of the tech-savvy boy from Sharjah." 
-                : "To know you is to understand the rhythm of your world. This map is a quiet archive of the sights, scents, and sounds that move you."}
-            </p>
           </div>
           
           <AnimatePresence mode="wait">
             {!isHamadMode ? (
-              /* LINN VIEW */
+              /* --- LINN VIEW --- */
               !hasSubmittedFavs ? (
                 <motion.form key="f" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onSubmit={handleFavSubmit} className="space-y-24 text-left">
                   <Question label="Favourite Song" value={favorites.song} onChange={(v)=>setFavorites({...favorites, song: v})} />
                   <Question label="Favourite Movie" value={favorites.movie} onChange={(v)=>setFavorites({...favorites, movie: v})} />
                   <Question label="Soul Color" value={favorites.soulColor} onChange={(v)=>setFavorites({...favorites, soulColor: v})} />
-                  <button className="w-full py-6 bg-[#1A1A1A] text-white rounded-full font-bold uppercase tracking-[0.4em] text-[10px]">Submit to my muse</button>
+                  <button className="w-full py-6 bg-[#1A1A1A] text-white rounded-full font-bold uppercase tracking-[0.4em] text-[10px] hover:bg-rose-500 transition-all">
+                    {isSending ? "Sending to the man who thinks of you daily..." : "Submit to the man who thinks of you daily"}
+                  </button>
                 </motion.form>
               ) : (
-                <motion.div key="c" className="p-16 bg-rose-50/50 rounded-[3rem] text-center py-32"><h3 className="text-3xl font-serif text-rose-900 mb-6 italic italic">Safely Kept.</h3><button onClick={()=>setHasSubmittedFavs(false)} className="text-[10px] uppercase tracking-widest text-rose-300 underline">Edit your map</button></motion.div>
+                <motion.div key="c" className="p-16 bg-rose-50/50 rounded-[3rem] text-center py-32"><h3 className="text-3xl font-serif text-rose-900 mb-6 italic italic">Safely Kept.</h3></motion.div>
               )
             ) : (
-              /* HAMAD VIEW */
+              /* --- HAMAD VIEW --- */
               <motion.div key="h" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-20">
                 <StaticAnswer label="Favourite Song" value={hamadData.song} />
-                <StaticAnswer label="Favourite Movie" value={hamadData.movie} />
-                <StaticAnswer label="An Arab Word" value={hamadData.arabWord} />
+                <StaticAnswer label="Guilty Pleasure Band" value={hamadData.guiltyBand} />
+                <StaticAnswer label="Favourite Ice Cream" value={hamadData.iceCream} />
+                <StaticAnswer label="Nostalgic Memory" value={hamadData.nostalgia} />
                 <StaticAnswer label="The Scent of Toronto" value={hamadData.scent} />
                 <StaticAnswer label="The Color of My Soul" value={hamadData.soulColor} />
                 <StaticAnswer label="If we had 24 hours..." value={hamadData.dreamDay} />
@@ -216,17 +211,16 @@ export default function MyFavouriteLinn() {
         </div>
       </section>
 
-      {/* 5. POETRY */}
       <motion.section {...sectionVariant} className={`py-40 lg:py-60 transition-colors duration-1000 ${isHamadMode ? 'bg-blue-950' : 'bg-[#1A1A1A]'} text-[#FCFAF7] px-6 text-center relative z-10`}>
         <p className="text-5xl lg:text-8xl font-arabic leading-[1.8] mb-12 tracking-wide" dir="rtl">{poetry.arabic}</p>
         <div className={`h-px w-20 ${isHamadMode ? 'bg-blue-400' : 'bg-rose-900'} mx-auto mb-12`} />
-        <p className="text-xl lg:text-3xl font-serif italic text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed px-4">"{poetry.translation}"</p>
+        <p className="text-xl lg:text-3xl font-serif italic text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed px-4 italic">"{poetry.translation}"</p>
         <p className="text-[10px] uppercase tracking-[0.5em] text-gray-500">— {poetry.poet}</p>
       </motion.section>
 
       <footer className="py-32 bg-white text-center relative z-10">
         <h3 className="text-4xl font-serif text-[#1A1A1A] mb-4 font-bold tracking-tighter">Hamad Almheiri</h3>
-        <p className="text-gray-400 font-serif italic text-lg mb-16 italic font-serif">Coded by hand and obsession ;)</p>
+        <p className="text-gray-400 font-serif italic text-lg">Coded by hand and obsession ;)</p>
       </footer>
     </div>
   );
@@ -236,7 +230,7 @@ function Question({ label, value, onChange }) {
   return (
     <div className="group border-b border-gray-100 py-6">
       <label className="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold mb-3 block">{label}</label>
-      <input type="text" value={value || ''} onChange={(e)=>onChange(e.target.value)} className="w-full bg-transparent outline-none italic text-xl transition-all" />
+      <input type="text" value={value || ''} onChange={(e)=>onChange(e.target.value)} className="w-full bg-transparent outline-none italic text-xl" />
     </div>
   );
 }
